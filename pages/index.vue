@@ -39,33 +39,33 @@ import { Task } from '$prisma/client'
 export default Vue.extend({
   data() {
     return {
-      tasks: [] as Task[],
       newLabel: ''
     }
   },
   async fetch() {
     await this.fetchTasks()
   },
+  computed: {
+    tasks() {
+      return this.$accessor.task.tasks
+    }
+  },
   methods: {
-    async fetchTasks() {
-      this.tasks = await this.$api.tasks.$get()
+    fetchTasks() {
+      this.$accessor.task.fetchTasks()
     },
     async createTask() {
-      if (!this.newLabel) return
-
-      await this.$api.tasks.post({ body: { label: this.newLabel } })
+      await this.$accessor.task.createTask(this.newLabel)
       this.newLabel = ''
-      await this.fetchTasks()
+      this.fetchTasks()
     },
     async toggleDone(task: Task) {
-      await this.$api.tasks
-        ._taskId(task.id)
-        .patch({ body: { done: !task.done } })
-      await this.fetchTasks()
+      await this.$accessor.task.toggleDone(task)
+      this.fetchTasks()
     },
     async deleteTask(task: Task) {
-      await this.$api.tasks._taskId(task.id).delete()
-      await this.fetchTasks()
+      await this.$accessor.task.deleteTask(task)
+      this.fetchTasks()
     }
   }
 })
