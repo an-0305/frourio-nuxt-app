@@ -39,7 +39,8 @@ const config: NuxtConfig = {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
-    '@nuxtjs/stylelint-module'
+    '@nuxtjs/stylelint-module',
+    'nuxt-typed-vuex'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
